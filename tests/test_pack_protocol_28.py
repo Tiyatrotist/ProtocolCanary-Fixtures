@@ -59,6 +59,11 @@ class Protocol28PackTests(unittest.TestCase):
         for fx in self.fixtures:
             self.assertTrue(fx.data.get("source_reference"), fx.path)
 
+    def test_every_fixture_path_matches_its_surface(self) -> None:
+        for fx in self.fixtures:
+            relative_path = fx.path.relative_to(PACK)
+            self.assertEqual(relative_path.parts[0], fx.data.get("surface"), fx.path)
+
     def test_expected_fixture_ids_are_present_per_surface(self) -> None:
         by_surface: dict[str, set[str]] = {"xdr": set(), "rpc": set(), "soroban": set()}
         for fx in self.fixtures:
